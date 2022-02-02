@@ -1,0 +1,11 @@
+.contentBox{
+    height: 300px;
+    width:100%;
+    background-color: rgb(248, 208, 133);
+}
+
+.contentWrapper{
+    width:700px;
+    height:700px;
+    overflow: auto;
+}

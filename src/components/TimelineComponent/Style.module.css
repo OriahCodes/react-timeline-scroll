@@ -1,0 +1,12 @@
+.timelineWrapper{
+    position: relative;
+    width:fit-content;
+    height: fit-content;
+    margin: auto;
+    margin-top: 80px;
+}
+
+
+.label{
+    position: absolute;
+}
