@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import style from "./Style.module.css"
+import BulletMark from "../BulletMark/BulletMark";
+import TextMark from "../TextMark/TextMark";
+import { MARK_TYPES } from "../../App";
 
 
-export default function Section({ top, height, label = '', text = '', onHover = () => { } }) {
+export default function Section({ top, height, label = '', text = '', type, isHover = false, onHover = () => { } }) {
     const sectionRef = useRef(null)
 
     const onMouseMove = (event) => {
@@ -17,12 +20,22 @@ export default function Section({ top, height, label = '', text = '', onHover = 
         }
     }, [])
 
+    useEffect(() => {
+        if (isHover) onHover(label, isHover)
+    }, [isHover])
+
     return (
         <div className={style.sectionWrapper} ref={sectionRef}>
             < div
-                className={style.mark}
+                className={style.section}
                 style={{ top, height }}>
-                {text ? text : '.'}
+
+                <div className={style.mark}>
+                    {type === MARK_TYPES.TEXT ? <TextMark text={text} /> :
+                        type === MARK_TYPES.BULLET ? <BulletMark />
+                            : null}
+                </div>
+
             </div>
         </div>
     )

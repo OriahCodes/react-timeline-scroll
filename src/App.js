@@ -5,19 +5,23 @@ import TextMark from './components/TextMark/TextMark';
 import ContentBox from './components/ContentBox/ContentBox';
 import BulletMark from './components/BulletMark/BulletMark';
 
+export const MARK_TYPES = {
+  BULLET: 'bullet',
+  TEXT: 'text'
+}
 
 function App() {
   return (
     <div className="App">
-      <TimelineComponent>
-        <div className={style.contentWrapper}>
-          <ContentBox label='Feb 2019' className={style.contentBox} />
-          <TextMark label='Feb 2019' mark={'2019'}>Feb 2019</TextMark>
-          <ContentBox label='Dec 2018' className={style.contentBox} />
-          <BulletMark label='Dec 2018'>Dec 2018</BulletMark>
-          <ContentBox label='Jan 2018' className={style.contentBox} />
-          <TextMark label='Jan 2018' mark={'2018'}>Jan 2018</TextMark>
-        </div>
+      <TimelineComponent className={style.contentWrapper}>
+        <ContentBox label='Feb 2019' >   Feb 2019  </ContentBox>
+        <ContentBox label='Feb 2019' type='text' mark={'2019'} className={style.dummyContent} />
+
+        <ContentBox label='Dec 2018'>Dec 2018</ContentBox>
+        <ContentBox label='Dec 2018' type={MARK_TYPES.BULLET} className={style.dummyContent} />
+
+        <ContentBox label='Jan 2018' >      Jan 2018   </ContentBox>
+        <ContentBox label='Jan 2018' type='text' mark={'2018'} className={style.dummyContent} />
       </TimelineComponent>
     </div>
   );

@@ -3,41 +3,45 @@ import style from "./Style.module.css"
 import Timeline from "../Timeline/Timeline";
 import { buildData } from "./scripts/dataFunctions";
 
-export default function TimelineComponent({ children }) {
+export default function TimelineComponent({ className = '', children }) {
     const contentRef = useRef(null)
     const [timelineData, setTimelineData] = useState(null)
-    // const [labelData, setLabel] = useState(null)
+    const [scrollTop, setScrollTop] = useState(0)
 
     useEffect(() => {
         if (!contentRef?.current) return
         const data = buildData(contentRef.current)
-        console.log('data', data)
         setTimelineData(data)
     }, [contentRef])
 
-    // const onHover = (lbl, event) => {
-    //     if (lbl) {
-    //         // debugger
-    //         console.log('event.clientY', event.clientY)
-    //         setLabel({ text: lbl, position: { x: event.clientX, y: event.clientY } })
-    //     }
-    //     else setLabel(null)
-    // }
+    const onClick = (perc) => {
+        const updatedScroll = perc * (contentRef.current.scrollHeight - contentRef.current.clientHeight)
+        contentRef.current.scrollTop = updatedScroll
+    }
+    const onWheel = (deltaPerc) => {
+        const scrollDelta = deltaPerc * (contentRef.current.scrollHeight - contentRef.current.clientHeight)
+        contentRef.current.scrollTop = contentRef.current.scrollTop + scrollDelta
+    }
 
+    const onScroll = (event) => {
+        const timelineScroll = contentRef.current.offsetHeight * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight))
+        setScrollTop(timelineScroll)
+    }
 
     return (
         <>
             <div className={style.timelineWrapper}>
-                <div className={style.content} ref={contentRef}>
+                <div className={className} ref={contentRef} onScroll={onScroll} >
                     {children}
                 </div>
-                {timelineData && <Timeline data={timelineData} />}
+                {timelineData &&
+                    <Timeline
+                        onClick={onClick}
+                        onWheel={onWheel}
+                        currentYPos={scrollTop}
+                        data={timelineData}
+                    />}
             </div>
-            {/* {labelData && <div
-                className={style.label}
-                style={{ top: labelData.position.y, left: labelData.position.x + 20 }}>
-                {labelData.text}
-            </div >} */}
         </>
     )
 }

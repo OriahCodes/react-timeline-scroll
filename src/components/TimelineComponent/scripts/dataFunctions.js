@@ -2,10 +2,9 @@ import _ from 'lodash'
 
 export const buildData = (contentRef) => {
     const scrollHeight = contentRef.offsetHeight
-    // let textMarkNodes = contentRef.querySelectorAll("div[data-type='text-mark']")
-    // let bulletNodes = contentRef.querySelectorAll("div[data-type='bullet-mark']")
-    // let contentNodes = contentRef.querySelectorAll("div[data-type='content']")
-    let allMarkedNodes = contentRef.querySelectorAll("div[data-type*='timeline-scroll-']")
+
+    let allMarkedNodes = contentRef.querySelectorAll("div[name='timeline-scroll']")
+    // let allMarkedNodes = contentRef.querySelectorAll("div[data-type*='timeline-scroll-']")
 
     let parentHeight = 0
     let dataList = _.reduce(allMarkedNodes, (acc, node) => {

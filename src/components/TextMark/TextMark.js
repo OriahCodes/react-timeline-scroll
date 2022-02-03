@@ -1,11 +1,12 @@
 import React from "react";
 import style from "./Style.module.css"
 
-export default function TextMark({ className = '', label = '', mark = '', children }) {
+export default function TextMark({ className = '', text = '', children }) {
 
     return (
-        <div className={className} data-label={label} data-type='timeline-scroll-text-mark' data-text={mark}>
+        <>
+            <div className={`${className} ${style.text}`}>{text}</div>
             {children}
-        </div>
+        </>
     )
 }
