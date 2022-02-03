@@ -28,6 +28,15 @@
   color: #61dafb;
 }
 
+#timeline-scroll ::-webkit-scrollbar {
+  display:none;
+}
+  
+#timeline-scroll ::-webkit-scrollbar-thumb {
+  display:none;
+}
+  
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -12,7 +12,7 @@ export const MARK_TYPES = {
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" id='timeline-scroll'>
       <TimelineComponent className={style.contentWrapper}>
         <ContentBox label='Feb 2019' >   Feb 2019  </ContentBox>
         <ContentBox label='Feb 2019' type='text' mark={'2019'} className={style.dummyContent} />
