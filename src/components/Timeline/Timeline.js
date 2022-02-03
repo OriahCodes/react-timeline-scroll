@@ -10,6 +10,8 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     const [showTimeline, setShowTimeline] = useState(false)
     const isMouseDown = useRef(null)
     const timelineRef = useRef(null)
+    const activeDebouncer = useRef(null)
+    const timer = useRef(null)
 
     const onSectionHover = (label, yPos) => {
         let position = Math.max(0, yPos - 22)
@@ -35,7 +37,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     }
 
     const handleMouseMove = (event) => {
-        if (isInsideElement(event, timelineRef.current) || isMouseDown.current) setShowTimeline(true)
+        if (isInsideElement(event, timelineRef.current) || isMouseDown.current || activeDebouncer.current) setShowTimeline(true)
         else setShowTimeline(false)
 
         if (isMouseDown.current) handleDrag(event)
@@ -62,6 +64,20 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
             document.removeEventListener('mousemove', handleMouseMove);
         }
     }, [])
+
+    useEffect(() => {
+        if (!currentYPos) return
+        setShowTimeline(true)
+
+        clearTimeout(timer.current);
+        activeDebouncer.current = true
+
+        timer.current = setTimeout(() => {
+            activeDebouncer.current = false
+            setShowTimeline(false)
+        }, 1500);
+
+    }, [currentYPos])
 
     return (
         <>
