@@ -3,6 +3,11 @@ import style from "./Style.module.css"
 import Timeline from "../Timeline/Timeline";
 import { buildData } from "./scripts/dataFunctions";
 
+export const MARK_TYPES = {
+    BULLET: 'bullet',
+    TEXT: 'text'
+}
+
 export default function TimelineComponent({ className = '', children }) {
     const contentRef = useRef(null)
     const [timelineData, setTimelineData] = useState(null)
@@ -29,19 +34,17 @@ export default function TimelineComponent({ className = '', children }) {
     }
 
     return (
-        <>
-            <div className={style.timelineWrapper}>
-                <div className={className} ref={contentRef} onScroll={onScroll} >
-                    {children}
-                </div>
-                {timelineData &&
-                    <Timeline
-                        onClick={onClick}
-                        onWheel={onWheel}
-                        currentYPos={scrollTop}
-                        data={timelineData}
-                    />}
+        <div className={style.timelineWrapper} id='timeline-scroll' >
+            <div className={className} ref={contentRef} onScroll={onScroll} >
+                {children}
             </div>
-        </>
+            {timelineData &&
+                <Timeline
+                    onClick={onClick}
+                    onWheel={onWheel}
+                    currentYPos={scrollTop}
+                    data={timelineData}
+                />}
+        </div>
     )
 }

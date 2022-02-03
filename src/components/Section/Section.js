@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import style from "./Style.module.css"
 import BulletMark from "../BulletMark/BulletMark";
 import TextMark from "../TextMark/TextMark";
-import { MARK_TYPES } from "../../App";
+import { MARK_TYPES } from "../TimelineComponent/TimelineComponent";
 
 
 export default function Section({ top, height, label = '', text = '', type, isHover = false, onHover = () => { } }) {

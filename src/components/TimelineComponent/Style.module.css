@@ -10,3 +10,12 @@
 .label{
     position: absolute;
 }
+
+.timelineWrapper ::-webkit-scrollbar {
+    display:none;
+}
+    
+.timelineWrapper ::-webkit-scrollbar-thumb {
+    display:none;
+}
+    
