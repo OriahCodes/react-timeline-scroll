@@ -32,7 +32,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
         const isInElem = isInsideElement(event, timelineRef.current)
 
         if (!flag && !isInElem) setShowTimeline(false)
-        if ((flag && isInElem || !flag))
+        if ((flag && isInElem) || !flag)
             isMouseDown.current = flag
     }
 
