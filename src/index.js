@@ -10,9 +10,7 @@ export default TimelineComponent;
 export { ContentBox, MARK_TYPES };
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
   document.getElementById('root')
 );
 
