@@ -1,7 +1,7 @@
 import './App.css';
-import TimelineComponent, { MARK_TYPES } from './components/TimelineComponent/TimelineComponent';
+import TimelineComponent, { MARK_TYPES } from './lib/components/TimelineComponent/TimelineComponent';
 import style from "./Style.module.css"
-import ContentBox from './components/ContentBox/ContentBox';
+import ContentBox from './lib/components/ContentBox/ContentBox';
 
 
 function App() {

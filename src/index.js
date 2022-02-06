@@ -3,11 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import TimelineComponent, { MARK_TYPES } from './components/TimelineComponent/TimelineComponent'
-import ContentBox from './components/ContentBox/ContentBox'
 
-export default TimelineComponent;
-export { ContentBox, MARK_TYPES };
 
 ReactDOM.render(
   <App />,
