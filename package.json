@@ -15,6 +15,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "babel-preset-react-app": "^10.0.1",
+    "react-scripts": "^5.0.0",
     "web-vitals": "^2.1.4"
   },
   "peerDependencies": {
@@ -22,6 +23,7 @@
     "react-dom": "^17.0.2"
   },
   "scripts": {
+    "start": "react-scripts start",
     "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files"
   },
   "eslintConfig": {
