@@ -6,6 +6,7 @@ export const buildData = (contentRef, wrapperHeight) => {
     let allMarkedNodes = contentRef.querySelectorAll("div[name='timeline-scroll']")
 
     let dataList = _.reduce(allMarkedNodes, (acc, node) => {
+
         const offsetTop = node.offsetTop
         const offsetHeight = node.offsetHeight
 
@@ -19,8 +20,8 @@ export const buildData = (contentRef, wrapperHeight) => {
 
     dataList = _.map(dataList, data => {
         const { offsetTop, offsetHeight } = data
-        const top = (offsetTop / scrollHeight) * wrapperHeight
-        const height = (offsetHeight / scrollHeight) * wrapperHeight
+        const top = (offsetTop / scrollHeight)
+        const height = (offsetHeight / scrollHeight)
         return { ...data, top, height }
     })
 

@@ -15,7 +15,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
 
     const onSectionHover = (label, yPos) => {
         let position = Math.max(0, yPos - 22)
-        setLabel({ text: label, position: position })
+        setLabel({ text: label, position: Math.min(position, timelineRef.current.offsetHeight - 22) })
     }
 
     const handleClick = (event) => {
@@ -44,8 +44,8 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     }
 
     const handleDrag = (event) => {
-        setYPosDrag(event.clientY - timelineRef.current.getBoundingClientRect().top)
 
+        setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
         const deltaPerc = getDraglDeltaPercent(event, timelineRef.current)
         if (!_.isNil(deltaPerc)) onClick(deltaPerc)
     }
@@ -86,10 +86,10 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
                     const { label, top, height, text, type } = item
                     return < Section
                         key={i}
-                        isHover={yPosDrag >= top && yPosDrag <= (top + height) ? yPosDrag : null}
+                        isHover={yPosDrag >= top && yPosDrag <= (top + height) ? yPosDrag * timelineRef.current.offsetHeight : null}
                         onHover={onSectionHover}
-                        top={top}
-                        height={height}
+                        topPercent={top}
+                        heightPercent={height}
                         text={text}
                         type={type}
                         label={label}>
@@ -132,6 +132,7 @@ function getDraglDeltaPercent(event, timelineRef) {
 }
 
 function isInsideElement(event, timelineRef) {
+    if (!timelineRef) return false
     const { left, top, right, height } = timelineRef.getBoundingClientRect()
 
     if (event.clientX >= left && event.clientX <= right &&

@@ -5,11 +5,11 @@ import TextMark from "../TextMark/TextMark";
 import { MARK_TYPES } from "../TimelineComponent/TimelineComponent";
 
 
-export default function Section({ top, height, label = '', text = '', type, isHover = false, onHover = () => { } }) {
+export default function Section({ topPercent, heightPercent, label = '', text = '', type, isHover = false, onHover = () => { } }) {
     const sectionRef = useRef(null)
 
     const onMouseMove = (event) => {
-        const pos = getLabelPos(event, sectionRef.current, top, height)
+        const pos = getLabelPos(event, sectionRef.current, topPercent)
         if (pos) onHover(label, pos)
     }
 
@@ -28,7 +28,7 @@ export default function Section({ top, height, label = '', text = '', type, isHo
         <div className={style.sectionWrapper} ref={sectionRef}>
             < div
                 className={style.section}
-                style={{ top, height }}>
+                style={{ top: `${topPercent}%`, height: `${heightPercent}%` }}>
 
                 <div className={style.mark}>
                     {type === MARK_TYPES.TEXT ? <TextMark text={text} /> :
@@ -41,11 +41,12 @@ export default function Section({ top, height, label = '', text = '', type, isHo
     )
 }
 
-function getLabelPos(event, sectionRef, sectionMargin, sectionHeight) {
+function getLabelPos(event, sectionRef, sectionMargin) {
     const { left, top, right } = sectionRef.getBoundingClientRect()
     const parentMargin = sectionRef.parentElement.getBoundingClientRect().top
+
     if (event.clientX >= left && event.clientX <= right &&
-        event.clientY >= (top + sectionMargin) && event.clientY <= (top + sectionMargin + sectionHeight)) {
+        event.clientY >= (top + sectionMargin) && event.clientY <= (top + sectionMargin + sectionRef.offsetHeight)) {
         return event.clientY - parentMargin
     }
     return null
