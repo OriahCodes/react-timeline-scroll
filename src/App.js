@@ -3,10 +3,11 @@ import TimelineComponent, { MARK_TYPES } from './lib/components/TimelineComponen
 import style from "./Style.module.css"
 import ContentBox from './lib/components/ContentBox/ContentBox';
 
+// NOTE!! appWrapper has to be with position relative!
 
 function App() {
   return (
-    <div className="App" >
+    <div className={`App ${style.appWrapper}`}  >
       <TimelineComponent className={style.contentWrapper}>
         <ContentBox label='Feb 2019' type={MARK_TYPES.TEXT} mark={'2019'} className={style.dummyContent}>Feb 2019</ContentBox>
 

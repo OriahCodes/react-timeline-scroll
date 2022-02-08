@@ -10,33 +10,37 @@ export const MARK_TYPES = {
 
 export default function TimelineComponent({ className = '', children }) {
     const contentRef = useRef(null)
+    const wrapperRef = useRef(null)
     const [timelineData, setTimelineData] = useState(null)
     const [scrollTop, setScrollTop] = useState(0)
 
     useEffect(() => {
         if (!contentRef?.current) return
-        const data = buildData(contentRef.current)
+        const data = buildData(contentRef.current, wrapperRef.current.clientHeight)
         setTimelineData(data)
     }, [contentRef])
 
     const onClick = (perc) => {
-        const updatedScroll = perc * (contentRef.current.scrollHeight - contentRef.current.clientHeight)
-        contentRef.current.scrollTop = updatedScroll
+        const updatedScroll = perc * (contentRef.current.clientHeight - wrapperRef.current.clientHeight)
+        wrapperRef.current.scrollTop = updatedScroll
     }
     const onWheel = (deltaPerc) => {
-        const scrollDelta = deltaPerc * (contentRef.current.scrollHeight - contentRef.current.clientHeight)
-        contentRef.current.scrollTop = contentRef.current.scrollTop + scrollDelta
+        const scrollDelta = deltaPerc * wrapperRef.current.clientHeight//(contentRef.current.scrollHeight - wrapperRef.current.clientHeight)
+        wrapperRef.current.scrollTop = wrapperRef.current.scrollTop + scrollDelta
     }
 
     const onScroll = (event) => {
-        const timelineScroll = contentRef.current.offsetHeight * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight))
+        const timelineScroll = wrapperRef.current.clientHeight * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight))
+        console.log('timelineScroll', timelineScroll)
         setScrollTop(timelineScroll)
     }
 
     return (
-        <div className={style.timelineWrapper} id='timeline-scroll' >
-            <div className={className} ref={contentRef} onScroll={onScroll} >
-                {children}
+        <>
+            <div className={style.timelineWrapper} id='timeline-scroll' ref={wrapperRef} onScroll={onScroll} >
+                <div className={className} ref={contentRef} >
+                    {children}
+                </div>
             </div>
             {timelineData &&
                 <Timeline
@@ -45,6 +49,6 @@ export default function TimelineComponent({ className = '', children }) {
                     currentYPos={scrollTop}
                     data={timelineData}
                 />}
-        </div>
+        </>
     )
 }
