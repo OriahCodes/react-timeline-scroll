@@ -1,6 +1,6 @@
 .appWrapper{
-    width:90vw;
-    height: 80vh;
+    width:800px;
+    height: 800px;
     margin:auto;
     margin-top:90px;
     overflow: hidden;
@@ -10,7 +10,6 @@
 .componentWrapper{
     height: 100%;
     width: 100%;
-    /* overflow-y: scroll; */
 }
 
 .dummyContent{
@@ -21,9 +20,6 @@
 }
 
 .contentWrapper{
-    /* width:700px; */
-    /* height:700px; */
-    /* overflow: auto; */
 }
 
 .photosWrapper{

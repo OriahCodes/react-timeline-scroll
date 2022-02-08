@@ -25,13 +25,12 @@ export default function TimelineComponent({ className = '', children }) {
         wrapperRef.current.scrollTop = updatedScroll
     }
     const onWheel = (deltaPerc) => {
-        const scrollDelta = deltaPerc * wrapperRef.current.clientHeight//(contentRef.current.scrollHeight - wrapperRef.current.clientHeight)
+        const scrollDelta = deltaPerc * wrapperRef.current.clientHeight
         wrapperRef.current.scrollTop = wrapperRef.current.scrollTop + scrollDelta
     }
 
     const onScroll = (event) => {
-        const timelineScroll = wrapperRef.current.clientHeight * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight))
-        console.log('timelineScroll', timelineScroll)
+        const timelineScroll = (wrapperRef.current.clientHeight - 2) * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight))
         setScrollTop(timelineScroll)
     }
 

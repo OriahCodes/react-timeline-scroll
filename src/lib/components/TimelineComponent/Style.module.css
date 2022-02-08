@@ -10,11 +10,11 @@
     position: absolute;
 }
 
-.timelineWrapper ::-webkit-scrollbar {
+.timelineWrapper::-webkit-scrollbar {
     display:none;
 }
     
-.timelineWrapper ::-webkit-scrollbar-thumb {
+.timelineWrapper::-webkit-scrollbar-thumb {
     display:none;
 }
     
