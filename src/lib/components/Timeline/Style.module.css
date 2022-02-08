@@ -1,5 +1,6 @@
 .timeline{
-    display: grid;
+    display: flex;
+    flex-flow: column;
     opacity: 0;
     width:40px;
     height: 100%;

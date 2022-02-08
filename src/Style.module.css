@@ -12,8 +12,14 @@
     width: 100%;
 }
 
-.dummyContent{
-    height: 300px;
+.dummyContent1{
+    height: 200px;
+    width:100%;
+    background-color: rgb(248, 208, 133);
+    border-bottom: 1px solid black;
+}
+.dummyContent2{
+    height: 550px;
     width:100%;
     background-color: rgb(248, 208, 133);
     border-bottom: 1px solid black;

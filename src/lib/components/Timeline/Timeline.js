@@ -86,7 +86,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
                     const { label, top, height, text, type } = item
                     return < Section
                         key={i}
-                        isHover={yPosDrag >= top && yPosDrag <= (top + height) ? yPosDrag * timelineRef.current.offsetHeight : null}
+                        isHover={yPosDrag >= top && yPosDrag <= (top + height) ? yPosDrag * timelineRef?.current?.offsetHeight : null}
                         onHover={onSectionHover}
                         topPercent={top}
                         heightPercent={height}

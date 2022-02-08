@@ -25,17 +25,12 @@ export default function Section({ topPercent, heightPercent, label = '', text = 
     }, [isHover])
 
     return (
-        <div className={style.sectionWrapper} ref={sectionRef}>
-            < div
-                className={style.section}
-                style={{ top: `${topPercent}%`, height: `${heightPercent}%` }}>
-
-                <div className={style.mark}>
-                    {type === MARK_TYPES.TEXT ? <TextMark text={text} /> :
-                        type === MARK_TYPES.BULLET ? <BulletMark />
-                            : null}
-                </div>
-
+        <div className={style.sectionWrapper} ref={sectionRef}
+            style={{ flex: `${heightPercent * 100}%` }}>
+            <div className={style.mark}>
+                {type === MARK_TYPES.TEXT ? <TextMark text={text} /> :
+                    type === MARK_TYPES.BULLET ? <BulletMark />
+                        : null}
             </div>
         </div>
     )
