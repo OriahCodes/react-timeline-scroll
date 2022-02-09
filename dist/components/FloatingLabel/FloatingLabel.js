@@ -15,14 +15,14 @@ function FloatingLabel(_ref) {
   var _ref$className = _ref.className,
       className = _ref$className === void 0 ? '' : _ref$className,
       _ref$label = _ref.label,
-      label = _ref$label === void 0 ? '' : _ref$label,
+      label = _ref$label === void 0 ? undefined : _ref$label,
       _ref$yPos = _ref.yPos,
-      yPos = _ref$yPos === void 0 ? 0 : _ref$yPos,
-      children = _ref.children;
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-    className: _StyleModule.default.label,
+      yPos = _ref$yPos === void 0 ? 0 : _ref$yPos;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    id: "floating-label",
+    className: "".concat(className, " ").concat(_StyleModule.default.label),
     style: {
       top: yPos
     }
-  }, label), children);
+  }, label);
 }

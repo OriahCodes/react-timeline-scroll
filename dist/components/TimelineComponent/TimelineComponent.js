@@ -45,6 +45,7 @@ function TimelineComponent(_ref) {
       className = _ref$className === void 0 ? '' : _ref$className,
       children = _ref.children;
   var contentRef = (0, _react.useRef)(null);
+  var wrapperRef = (0, _react.useRef)(null);
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -58,33 +59,34 @@ function TimelineComponent(_ref) {
 
   (0, _react.useEffect)(function () {
     if (!(contentRef !== null && contentRef !== void 0 && contentRef.current)) return;
-    var data = (0, _dataFunctions.buildData)(contentRef.current);
+    var data = (0, _dataFunctions.buildData)(contentRef.current, wrapperRef.current.clientHeight);
     setTimelineData(data);
   }, [contentRef]);
 
   var onClick = function onClick(perc) {
-    var updatedScroll = perc * (contentRef.current.scrollHeight - contentRef.current.clientHeight);
-    contentRef.current.scrollTop = updatedScroll;
+    var updatedScroll = perc * (contentRef.current.clientHeight - wrapperRef.current.clientHeight);
+    wrapperRef.current.scrollTop = updatedScroll;
   };
 
   var onWheel = function onWheel(deltaPerc) {
-    var scrollDelta = deltaPerc * (contentRef.current.scrollHeight - contentRef.current.clientHeight);
-    contentRef.current.scrollTop = contentRef.current.scrollTop + scrollDelta;
+    var scrollDelta = deltaPerc * wrapperRef.current.clientHeight;
+    wrapperRef.current.scrollTop = wrapperRef.current.scrollTop + scrollDelta;
   };
 
   var onScroll = function onScroll(event) {
-    var timelineScroll = contentRef.current.offsetHeight * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight));
+    var timelineScroll = (wrapperRef.current.clientHeight - 2) * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight));
     setScrollTop(timelineScroll);
   };
 
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: _StyleModule.default.timelineWrapper,
-    id: "timeline-scroll"
+    id: "timeline-scroll-component",
+    ref: wrapperRef,
+    onScroll: onScroll
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: className,
-    ref: contentRef,
-    onScroll: onScroll
-  }, children), timelineData && /*#__PURE__*/_react.default.createElement(_Timeline.default, {
+    ref: contentRef
+  }, children)), timelineData && /*#__PURE__*/_react.default.createElement(_Timeline.default, {
     onClick: onClick,
     onWheel: onWheel,
     currentYPos: scrollTop,

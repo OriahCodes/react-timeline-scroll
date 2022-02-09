@@ -46,30 +46,26 @@ function Timeline(_ref) {
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
-      labelData = _useState2[0],
-      setLabel = _useState2[1];
+      yPosDrag = _useState2[0],
+      setYPosDrag = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(null),
+  var _useState3 = (0, _react.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      yPosDrag = _useState4[0],
-      setYPosDrag = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      showTimeline = _useState6[0],
-      setShowTimeline = _useState6[1];
+      showTimeline = _useState4[0],
+      setShowTimeline = _useState4[1];
 
   var isMouseDown = (0, _react.useRef)(null);
   var timelineRef = (0, _react.useRef)(null);
+  var floatingLabelRef = (0, _react.useRef)(null);
   var activeDebouncer = (0, _react.useRef)(null);
   var timer = (0, _react.useRef)(null);
 
   var onSectionHover = function onSectionHover(label, yPos) {
+    var floatingLabel = floatingLabelRef.current.firstElementChild;
     var position = Math.max(0, yPos - 22);
-    setLabel({
-      text: label,
-      position: position
-    });
+    position = Math.min(position, timelineRef.current.offsetHeight - 22);
+    floatingLabel.style.top = "".concat(position, "px");
+    floatingLabel.innerHTML = label;
   };
 
   var handleClick = function handleClick(event) {
@@ -94,7 +90,7 @@ function Timeline(_ref) {
   };
 
   var handleDrag = function handleDrag(event) {
-    setYPosDrag(event.clientY - timelineRef.current.getBoundingClientRect().top);
+    setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight);
     var deltaPerc = getDraglDeltaPercent(event, timelineRef.current);
     if (!_lodash.default.isNil(deltaPerc)) onClick(deltaPerc);
   };
@@ -133,8 +129,11 @@ function Timeline(_ref) {
   }, [currentYPos]);
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "".concat(_StyleModule.default.timeline, " ").concat(showTimeline ? _StyleModule.default.visible : ''),
-    ref: timelineRef
+    ref: timelineRef,
+    id: "timeline-scroll-strip"
   }, data.map(function (item, i) {
+    var _timelineRef$current;
+
     var label = item.label,
         top = item.top,
         height = item.height,
@@ -142,10 +141,10 @@ function Timeline(_ref) {
         type = item.type;
     return /*#__PURE__*/_react.default.createElement(_Section.default, {
       key: i,
-      isHover: yPosDrag >= top && yPosDrag <= top + height ? yPosDrag : null,
+      isHover: yPosDrag >= top && yPosDrag <= top + height ? yPosDrag * (timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current = timelineRef.current) === null || _timelineRef$current === void 0 ? void 0 : _timelineRef$current.offsetHeight) : null,
       onHover: onSectionHover,
-      top: top,
-      height: height,
+      topPercent: top,
+      heightPercent: height,
       text: text,
       type: type,
       label: label
@@ -155,12 +154,10 @@ function Timeline(_ref) {
     style: {
       top: currentYPos
     }
-  })), labelData && /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    ref: floatingLabelRef,
     className: "".concat(_StyleModule.default.floatingLabel, " ").concat(showTimeline ? _StyleModule.default.visible : '')
-  }, /*#__PURE__*/_react.default.createElement(_FloatingLabel.default, {
-    yPos: labelData.position,
-    label: labelData.text
-  })));
+  }, /*#__PURE__*/_react.default.createElement(_FloatingLabel.default, null)));
 }
 
 function getClickPosPercent(event, timelineRef) {
@@ -198,6 +195,8 @@ function getDraglDeltaPercent(event, timelineRef) {
 }
 
 function isInsideElement(event, timelineRef) {
+  if (!timelineRef) return false;
+
   var _timelineRef$getBound3 = timelineRef.getBoundingClientRect(),
       left = _timelineRef$getBound3.left,
       top = _timelineRef$getBound3.top,

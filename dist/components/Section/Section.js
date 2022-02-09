@@ -24,8 +24,8 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Section(_ref) {
-  var top = _ref.top,
-      height = _ref.height,
+  var topPercent = _ref.topPercent,
+      heightPercent = _ref.heightPercent,
       _ref$label = _ref.label,
       label = _ref$label === void 0 ? '' : _ref$label,
       _ref$text = _ref.text,
@@ -38,8 +38,8 @@ function Section(_ref) {
   var sectionRef = (0, _react.useRef)(null);
 
   var onMouseMove = function onMouseMove(event) {
-    var pos = getLabelPos(event, sectionRef.current, top, height);
-    if (pos) onHover(label, pos);
+    var yPos = getLabelPos(event, sectionRef.current, topPercent);
+    if (yPos) onHover(label, yPos);
   };
 
   (0, _react.useEffect)(function () {
@@ -53,21 +53,18 @@ function Section(_ref) {
   }, [isHover]);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: _StyleModule.default.sectionWrapper,
-    ref: sectionRef
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: _StyleModule.default.section,
+    ref: sectionRef,
     style: {
-      top: top,
-      height: height
+      flex: "".concat(heightPercent * 100, "%")
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: _StyleModule.default.mark
   }, type === _TimelineComponent.MARK_TYPES.TEXT ? /*#__PURE__*/_react.default.createElement(_TextMark.default, {
     text: text
-  }) : type === _TimelineComponent.MARK_TYPES.BULLET ? /*#__PURE__*/_react.default.createElement(_BulletMark.default, null) : null)));
+  }) : type === _TimelineComponent.MARK_TYPES.BULLET ? /*#__PURE__*/_react.default.createElement(_BulletMark.default, null) : null));
 }
 
-function getLabelPos(event, sectionRef, sectionMargin, sectionHeight) {
+function getLabelPos(event, sectionRef, sectionMargin) {
   var _sectionRef$getBoundi = sectionRef.getBoundingClientRect(),
       left = _sectionRef$getBoundi.left,
       top = _sectionRef$getBoundi.top,
@@ -75,7 +72,7 @@ function getLabelPos(event, sectionRef, sectionMargin, sectionHeight) {
 
   var parentMargin = sectionRef.parentElement.getBoundingClientRect().top;
 
-  if (event.clientX >= left && event.clientX <= right && event.clientY >= top + sectionMargin && event.clientY <= top + sectionMargin + sectionHeight) {
+  if (event.clientX >= left && event.clientX <= right && event.clientY >= top + sectionMargin && event.clientY <= top + sectionMargin + sectionRef.offsetHeight) {
     return event.clientY - parentMargin;
   }
 

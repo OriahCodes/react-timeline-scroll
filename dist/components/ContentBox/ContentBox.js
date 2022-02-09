@@ -19,12 +19,14 @@ function ContentBox(_ref) {
       _ref$mark = _ref.mark,
       mark = _ref$mark === void 0 ? undefined : _ref$mark,
       type = _ref.type,
+      name = _ref.name,
       children = _ref.children;
   return /*#__PURE__*/_react.default.createElement("div", {
     className: className,
     "data-label": label,
-    name: "timeline-scroll",
+    "data-name": "timeline-scroll-component",
     "data-type": type,
-    "data-text": mark
+    "data-text": mark,
+    name: name
   }, children);
 }

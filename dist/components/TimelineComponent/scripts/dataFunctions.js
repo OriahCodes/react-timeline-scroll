@@ -15,17 +15,13 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var buildData = function buildData(contentRef) {
+var buildData = function buildData(contentRef, wrapperHeight) {
   var scrollHeight = contentRef.offsetHeight;
-  var allMarkedNodes = contentRef.querySelectorAll("div[name='timeline-scroll']"); // let allMarkedNodes = contentRef.querySelectorAll("div[data-type*='timeline-scroll-']")
-
-  var parentHeight = 0;
+  var allMarkedNodes = contentRef.querySelectorAll("div[data-name='timeline-scroll-component']");
 
   var dataList = _lodash.default.reduce(allMarkedNodes, function (acc, node) {
-    // let { label, text, type } = node.dataset
     var offsetTop = node.offsetTop;
     var offsetHeight = node.offsetHeight;
-    if (offsetTop + offsetHeight > parentHeight) parentHeight = offsetTop + offsetHeight;
     acc.push(_objectSpread(_objectSpread({}, node.dataset), {}, {
       offsetTop: offsetTop,
       offsetHeight: offsetHeight
@@ -36,8 +32,8 @@ var buildData = function buildData(contentRef) {
   dataList = _lodash.default.map(dataList, function (data) {
     var offsetTop = data.offsetTop,
         offsetHeight = data.offsetHeight;
-    var top = offsetTop / parentHeight * scrollHeight;
-    var height = offsetHeight / parentHeight * scrollHeight;
+    var top = offsetTop / scrollHeight;
+    var height = offsetHeight / scrollHeight;
     return _objectSpread(_objectSpread({}, data), {}, {
       top: top,
       height: height
