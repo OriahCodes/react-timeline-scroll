@@ -132,16 +132,21 @@ function Timeline(_ref) {
     ref: timelineRef,
     id: "timeline-scroll-strip"
   }, data.map(function (item, i) {
-    var _timelineRef$current;
+    var _timelineRef$current, _timelineRef$current2;
 
     var label = item.label,
         top = item.top,
         height = item.height,
         text = item.text,
-        type = item.type;
+        type = item.type,
+        parentSectionPercent = item.parentSectionPercent;
+    var timelineHeight = timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current = timelineRef.current) === null || _timelineRef$current === void 0 ? void 0 : _timelineRef$current.offsetHeight;
+    var hideMark;
+    if (parentSectionPercent * timelineHeight < 15) hideMark = true;
     return /*#__PURE__*/_react.default.createElement(_Section.default, {
+      hideMark: hideMark,
       key: i,
-      isHover: yPosDrag >= top && yPosDrag <= top + height ? yPosDrag * (timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current = timelineRef.current) === null || _timelineRef$current === void 0 ? void 0 : _timelineRef$current.offsetHeight) : null,
+      isHover: yPosDrag >= top && yPosDrag <= top + height ? yPosDrag * (timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current2 = timelineRef.current) === null || _timelineRef$current2 === void 0 ? void 0 : _timelineRef$current2.offsetHeight) : null,
       onHover: onSectionHover,
       topPercent: top,
       heightPercent: height,

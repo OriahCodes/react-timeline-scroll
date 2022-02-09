@@ -26,6 +26,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function Section(_ref) {
   var topPercent = _ref.topPercent,
       heightPercent = _ref.heightPercent,
+      hideMark = _ref.hideMark,
       _ref$label = _ref.label,
       label = _ref$label === void 0 ? '' : _ref$label,
       _ref$text = _ref.text,
@@ -57,7 +58,7 @@ function Section(_ref) {
     style: {
       flex: "".concat(heightPercent * 100, "%")
     }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, !hideMark && /*#__PURE__*/_react.default.createElement("div", {
     className: _StyleModule.default.mark
   }, type === _TimelineComponent.MARK_TYPES.TEXT ? /*#__PURE__*/_react.default.createElement(_TextMark.default, {
     text: text

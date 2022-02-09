@@ -7,6 +7,8 @@ exports.buildData = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
+var _TimelineComponent = require("../TimelineComponent");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -29,14 +31,36 @@ var buildData = function buildData(contentRef, wrapperHeight) {
     return acc;
   }, []);
 
+  var textSectionHeight = 0;
+  var bulletSectionHeight = 0;
   dataList = _lodash.default.map(dataList, function (data) {
+    var parentSectionPercent = undefined;
     var offsetTop = data.offsetTop,
         offsetHeight = data.offsetHeight;
     var top = offsetTop / scrollHeight;
     var height = offsetHeight / scrollHeight;
+
+    if (data.type) {
+      if (data.type === _TimelineComponent.MARK_TYPES.BULLET) {
+        parentSectionPercent = height + bulletSectionHeight;
+        textSectionHeight += height;
+      }
+
+      if (data.type === _TimelineComponent.MARK_TYPES.TEXT) {
+        parentSectionPercent = height + textSectionHeight;
+        textSectionHeight = 0;
+      }
+
+      bulletSectionHeight = 0;
+    } else {
+      textSectionHeight += height;
+      bulletSectionHeight += height;
+    }
+
     return _objectSpread(_objectSpread({}, data), {}, {
       top: top,
-      height: height
+      height: height,
+      parentSectionPercent: parentSectionPercent
     });
   });
   return dataList;
