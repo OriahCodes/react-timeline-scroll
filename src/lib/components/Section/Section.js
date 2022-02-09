@@ -5,7 +5,7 @@ import TextMark from "../TextMark/TextMark";
 import { MARK_TYPES } from "../TimelineComponent/TimelineComponent";
 
 
-export default function Section({ topPercent, heightPercent, label = '', text = '', type, isHover = false, onHover = () => { } }) {
+export default function Section({ topPercent, heightPercent, hideMark, label = '', text = '', type, isHover = false, onHover = () => { } }) {
     const sectionRef = useRef(null)
 
     const onMouseMove = (event) => {
@@ -27,11 +27,11 @@ export default function Section({ topPercent, heightPercent, label = '', text = 
     return (
         <div className={style.sectionWrapper} ref={sectionRef}
             style={{ flex: `${heightPercent * 100}%` }}>
-            <div className={style.mark}>
-                {type === MARK_TYPES.TEXT ? <TextMark text={text} /> :
+            {!hideMark && <div className={style.mark}>
+                {type === MARK_TYPES.TEXT ? < TextMark text={text} /> :
                     type === MARK_TYPES.BULLET ? <BulletMark />
                         : null}
-            </div>
+            </div>}
         </div>
     )
 }
