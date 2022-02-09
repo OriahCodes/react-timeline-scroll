@@ -1,16 +1,13 @@
 import React from "react";
 import style from "./Style.module.css"
 
-export default function FloatingLabel({ className = '', label = '', yPos = 0, children }) {
+export default function FloatingLabel({ className = '', label = undefined, yPos = 0 }) {
 
     return (
-        <>
-            <div
-                className={style.label}
-                style={{ top: yPos }}>
-                {label}
-            </div >
-            {children}
-        </>
+        <div id='floating-label'
+            className={`${className} ${style.label}`}
+            style={{ top: yPos }}>
+            {label}
+        </div >
     )
 }

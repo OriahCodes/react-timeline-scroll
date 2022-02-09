@@ -3,7 +3,7 @@ import _ from 'lodash'
 export const buildData = (contentRef, wrapperHeight) => {
     const scrollHeight = contentRef.offsetHeight
 
-    let allMarkedNodes = contentRef.querySelectorAll("div[name='timeline-scroll']")
+    let allMarkedNodes = contentRef.querySelectorAll("div[data-name='timeline-scroll-component']")
 
     let dataList = _.reduce(allMarkedNodes, (acc, node) => {
 

@@ -36,7 +36,7 @@ export default function TimelineComponent({ className = '', children }) {
 
     return (
         <>
-            <div className={style.timelineWrapper} id='timeline-scroll' ref={wrapperRef} onScroll={onScroll} >
+            <div className={style.timelineWrapper} id='timeline-scroll-component' ref={wrapperRef} onScroll={onScroll} >
                 <div className={className} ref={contentRef} >
                     {children}
                 </div>

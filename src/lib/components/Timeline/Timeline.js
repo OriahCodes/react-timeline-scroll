@@ -5,17 +5,20 @@ import _ from 'lodash'
 import FloatingLabel from "../FloatingLabel/FloatingLabel";
 
 export default function Timeline({ data, currentYPos = 0, onClick = () => { }, onWheel = () => { } }) {
-    const [labelData, setLabel] = useState(null)
     const [yPosDrag, setYPosDrag] = useState(null)
     const [showTimeline, setShowTimeline] = useState(false)
     const isMouseDown = useRef(null)
     const timelineRef = useRef(null)
+    const floatingLabelRef = useRef(null)
     const activeDebouncer = useRef(null)
     const timer = useRef(null)
 
     const onSectionHover = (label, yPos) => {
+        const floatingLabel = floatingLabelRef.current.firstElementChild
         let position = Math.max(0, yPos - 22)
-        setLabel({ text: label, position: Math.min(position, timelineRef.current.offsetHeight - 22) })
+        position = Math.min(position, timelineRef.current.offsetHeight - 22)
+        floatingLabel.style.top = `${position}px`
+        floatingLabel.innerHTML = label
     }
 
     const handleClick = (event) => {
@@ -81,7 +84,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
 
     return (
         <>
-            <div className={`${style.timeline} ${showTimeline ? style.visible : ''}`} ref={timelineRef} >
+            <div className={`${style.timeline} ${showTimeline ? style.visible : ''}`} ref={timelineRef} id='timeline-scroll-strip'>
                 {data.map((item, i) => {
                     const { label, top, height, text, type } = item
                     return < Section
@@ -98,12 +101,10 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
                 <div className={style.currentPos} style={{ top: currentYPos }}></div>
             </div>
 
-            {labelData &&
-                <div className={`${style.floatingLabel} ${showTimeline ? style.visible : ''}`}>
-                    <FloatingLabel yPos={labelData.position} label={labelData.text} />
-                </div>
+            <div ref={floatingLabelRef} className={`${style.floatingLabel} ${showTimeline ? style.visible : ''}`}>
+                <FloatingLabel />
+            </div>
 
-            }
         </>
     )
 }

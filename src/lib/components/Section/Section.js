@@ -9,8 +9,8 @@ export default function Section({ topPercent, heightPercent, label = '', text = 
     const sectionRef = useRef(null)
 
     const onMouseMove = (event) => {
-        const pos = getLabelPos(event, sectionRef.current, topPercent)
-        if (pos) onHover(label, pos)
+        const yPos = getLabelPos(event, sectionRef.current, topPercent)
+        if (yPos) onHover(label, yPos)
     }
 
     useEffect(() => {
