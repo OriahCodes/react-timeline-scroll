@@ -66,6 +66,7 @@ function Timeline(_ref) {
     position = Math.min(position, timelineRef.current.offsetHeight - 22);
     floatingLabel.style.top = "".concat(position, "px");
     floatingLabel.innerHTML = label;
+    floatingLabel.padding = '2px'; //TODO
   };
 
   var handleClick = function handleClick(event) {
