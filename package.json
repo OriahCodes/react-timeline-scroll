@@ -15,11 +15,9 @@
   },
   "peerDependencies": {
     "react": "^16.0.2",
-    "react-dom": "^16.0.2",
-    "react-scripts": "^5.0.0"
+    "react-dom": "^16.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files"
   },
   "eslintConfig": {
@@ -57,6 +55,6 @@
   "devDependencies": {
     "@babel/cli": "^7.17.0",
     "@babel/core": "^7.17.0",
-    "@babel/preset-env": "^7.16.11"
+    "@babel/preset-env": "^7.16.11",
   }
 }
