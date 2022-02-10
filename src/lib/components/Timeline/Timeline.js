@@ -19,6 +19,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
         position = Math.min(position, timelineRef.current.offsetHeight - 22)
         floatingLabel.style.top = `${position}px`
         floatingLabel.innerHTML = label
+        floatingLabel.padding = '2px' //TODO
     }
 
     const handleClick = (event) => {
