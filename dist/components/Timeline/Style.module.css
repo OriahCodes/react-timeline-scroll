@@ -1,0 +1,44 @@
+.timeline{
+    display: flex;
+    flex-flow: column;
+    opacity: 0;
+    width:40px;
+    height: 100%;
+    background-color: white;
+    position: absolute;
+    cursor: row-resize;
+    top: 0px;
+    right: 0px;
+
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.floatingLabel{
+    opacity: 0;
+
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+}
+
+.timeline.visible,
+.floatingLabel.visible{
+    opacity: 1;
+
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.mark{
+    position: absolute;
+}
+
+.currentPos{
+    border-bottom: 1px solid blue;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+}

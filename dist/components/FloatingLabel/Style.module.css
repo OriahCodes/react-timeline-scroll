@@ -1,0 +1,14 @@
+
+
+.label{
+    cursor: row-resize;
+    position: absolute;
+    right:0px;
+    z-index:3;
+    border-bottom: 2px solid blue;
+    background-color: rgba(255, 255, 255, 0.692);
+    color:rgb(42, 41, 41);
+    font-weight: 600;
+    font-size: 14px;
+    /* padding:2px */
+}

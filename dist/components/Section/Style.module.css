@@ -1,0 +1,16 @@
+.sectionWrapper{
+    position: relative;
+}
+
+.section{
+    position: absolute;
+    width:100%;
+}
+
+.mark{
+    position: absolute;
+    bottom:0px;
+    width: 100%;
+}
+
+
