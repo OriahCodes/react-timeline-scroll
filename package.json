@@ -61,6 +61,7 @@
     "amazon-cognito-identity-js": "^3.3.3",
     "aws-amplify": "^3.3.14",
     "axios": "^0.21.1",
+    "babel": "^6.23.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "8.0.5",
@@ -179,19 +180,7 @@
     "workbox-webpack-plugin": "4.2.0"
   },
   "scripts": {
-    "start": "SENTRY_RELEASE=$(sentry-cli releases propose-version) node scripts/start.js",
-    "startWin": "node scripts/start",
-    "startHttpsWin": "set HTTPS=true&&set PORT=443&&npm run startWin",
-    "startHttpsMac": "HTTPS=true PORT=443 npm start",
-    "start80": "PORT=80 npm start",
-    "build": "node scripts/build.js",
-    "test": "NODE_ICU_DATA=node_modules/full-icu jest --runInBand",
-    "testWithLog": "NODE_ICU_DATA=node_modules/full-icu jest --json --outputFile=JestFails.json",
-    "testLocal": "node scripts/test.js",
-    "storybook": "IS_STORYBOOK=1 start-storybook -p 9009 -s public",
-    "build-storybook": "IS_STORYBOOK=1 build-storybook -s public",
-    "cypress-test": "npx cypress run --project ./di-cypress",
-    "cypress-local": "CYPRESS_BASE_URL=https://localhost:44300 npx cypress run --project ./di-cypress"
+    "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files"
   },
   "eslintConfig": {
     "extends": "react-app"
