@@ -14,12 +14,12 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     const timer = useRef(null)
 
     const onSectionHover = (label, yPos) => {
-        const floatingLabel = floatingLabelRef.current.firstElementChild
-        let position = Math.max(0, yPos - 22)
-        position = Math.min(position, timelineRef.current.offsetHeight - 22)
-        floatingLabel.style.top = `${position}px`
-        floatingLabel.innerHTML = label
-        floatingLabel.padding = '2px' //TODO
+        // const floatingLabel = floatingLabelRef.current.firstElementChild
+        // let position = Math.max(0, yPos - 22)
+        // position = Math.min(position, timelineRef.current.offsetHeight - 22)
+        // floatingLabel.style.top = `${posipacktion}px`
+        // floatingLabel.innerHTML = label
+        // floatingLabel.padding = '2px' //TODO
     }
 
     const handleClick = (event) => {
