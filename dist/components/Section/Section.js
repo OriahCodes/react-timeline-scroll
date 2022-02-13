@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = Section;
+exports["default"] = Section;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -17,11 +17,11 @@ var _TextMark = _interopRequireDefault(require("../TextMark/TextMark"));
 
 var _TimelineComponent = require("../TimelineComponent/TimelineComponent");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function Section(_ref) {
   var topPercent = _ref.topPercent,
@@ -52,17 +52,17 @@ function Section(_ref) {
   (0, _react.useEffect)(function () {
     if (isHover) onHover(label, isHover);
   }, [isHover]);
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: _StyleModule.default.sectionWrapper,
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: _StyleModule["default"].sectionWrapper,
     ref: sectionRef,
     style: {
       flex: "".concat(heightPercent * 100, "%")
     }
-  }, !hideMark && /*#__PURE__*/_react.default.createElement("div", {
-    className: _StyleModule.default.mark
-  }, type === _TimelineComponent.MARK_TYPES.TEXT ? /*#__PURE__*/_react.default.createElement(_TextMark.default, {
+  }, !hideMark && /*#__PURE__*/_react["default"].createElement("div", {
+    className: _StyleModule["default"].mark
+  }, type === _TimelineComponent.MARK_TYPES.TEXT ? /*#__PURE__*/_react["default"].createElement(_TextMark["default"], {
     text: text
-  }) : type === _TimelineComponent.MARK_TYPES.BULLET ? /*#__PURE__*/_react.default.createElement(_BulletMark.default, null) : null));
+  }) : type === _TimelineComponent.MARK_TYPES.BULLET ? /*#__PURE__*/_react["default"].createElement(_BulletMark["default"], null) : null));
 }
 
 function getLabelPos(event, sectionRef, sectionMargin) {

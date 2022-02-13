@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = Timeline;
+exports["default"] = Timeline;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -17,11 +17,11 @@ var _lodash = _interopRequireDefault(require("lodash"));
 
 var _FloatingLabel = _interopRequireDefault(require("../FloatingLabel/FloatingLabel"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -71,12 +71,12 @@ function Timeline(_ref) {
 
   var handleClick = function handleClick(event) {
     var posPerc = getClickPosPercent(event, timelineRef.current);
-    if (!_lodash.default.isNil(posPerc)) onClick(posPerc);
+    if (!_lodash["default"].isNil(posPerc)) onClick(posPerc);
   };
 
   var handleWheel = function handleWheel(event) {
     var deltaPerc = getWheelDeltaPercent(event, timelineRef.current);
-    if (!_lodash.default.isNil(deltaPerc)) onWheel(deltaPerc);
+    if (!_lodash["default"].isNil(deltaPerc)) onWheel(deltaPerc);
   };
 
   var handleMouseDown = function handleMouseDown(flag, event) {
@@ -93,7 +93,7 @@ function Timeline(_ref) {
   var handleDrag = function handleDrag(event) {
     setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight);
     var deltaPerc = getDraglDeltaPercent(event, timelineRef.current);
-    if (!_lodash.default.isNil(deltaPerc)) onClick(deltaPerc);
+    if (!_lodash["default"].isNil(deltaPerc)) onClick(deltaPerc);
   };
 
   (0, _react.useEffect)(function () {
@@ -128,8 +128,8 @@ function Timeline(_ref) {
       setShowTimeline(false);
     }, 1500);
   }, [currentYPos]);
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "".concat(_StyleModule.default.timeline, " ").concat(showTimeline ? _StyleModule.default.visible : ''),
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "".concat(_StyleModule["default"].timeline, " ").concat(showTimeline ? _StyleModule["default"].visible : ''),
     ref: timelineRef,
     id: "timeline-scroll-strip"
   }, data.map(function (item, i) {
@@ -144,7 +144,7 @@ function Timeline(_ref) {
     var timelineHeight = timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current = timelineRef.current) === null || _timelineRef$current === void 0 ? void 0 : _timelineRef$current.offsetHeight;
     var hideMark;
     if (parentSectionPercent * timelineHeight < 15) hideMark = true;
-    return /*#__PURE__*/_react.default.createElement(_Section.default, {
+    return /*#__PURE__*/_react["default"].createElement(_Section["default"], {
       hideMark: hideMark,
       key: i,
       isHover: yPosDrag >= top && yPosDrag <= top + height ? yPosDrag * (timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current2 = timelineRef.current) === null || _timelineRef$current2 === void 0 ? void 0 : _timelineRef$current2.offsetHeight) : null,
@@ -155,15 +155,15 @@ function Timeline(_ref) {
       type: type,
       label: label
     });
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: _StyleModule.default.currentPos,
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: _StyleModule["default"].currentPos,
     style: {
       top: currentYPos
     }
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     ref: floatingLabelRef,
-    className: "".concat(_StyleModule.default.floatingLabel, " ").concat(showTimeline ? _StyleModule.default.visible : '')
-  }, /*#__PURE__*/_react.default.createElement(_FloatingLabel.default, null)));
+    className: "".concat(_StyleModule["default"].floatingLabel, " ").concat(showTimeline ? _StyleModule["default"].visible : '')
+  }, /*#__PURE__*/_react["default"].createElement(_FloatingLabel["default"], null)));
 }
 
 function getClickPosPercent(event, timelineRef) {
