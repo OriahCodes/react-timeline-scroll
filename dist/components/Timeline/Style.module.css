@@ -9,7 +9,7 @@
     cursor: row-resize;
     top: 0px;
     right: 0px;
-
+    z-index: 2;
     transition-property: opacity;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
