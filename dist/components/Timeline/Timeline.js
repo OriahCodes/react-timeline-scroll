@@ -64,7 +64,7 @@ function Timeline(_ref) {
     var floatingLabel = floatingLabelRef.current.firstElementChild;
     var position = Math.max(0, yPos - 22);
     position = Math.min(position, timelineRef.current.offsetHeight - 22);
-    floatingLabel.style.top = "".concat(posipacktion, "px");
+    floatingLabel.style.top = "".concat(position, "px");
     floatingLabel.innerHTML = label;
     floatingLabel.padding = '2px'; //TODO
   };
