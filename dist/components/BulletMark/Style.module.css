@@ -4,5 +4,6 @@
     border-radius: 50%;
     background-color: #c9c6c6d1;
     margin: auto;
+    user-select: none;
     margin-right: 11px;
 }

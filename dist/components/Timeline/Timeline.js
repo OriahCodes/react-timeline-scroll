@@ -139,11 +139,10 @@ function Timeline(_ref) {
         top = item.top,
         height = item.height,
         text = item.text,
-        type = item.type,
-        parentSectionPercent = item.parentSectionPercent;
+        type = item.type;
     var timelineHeight = timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current = timelineRef.current) === null || _timelineRef$current === void 0 ? void 0 : _timelineRef$current.offsetHeight;
     var hideMark;
-    if (parentSectionPercent * timelineHeight < 15) hideMark = true;
+    if (height * timelineHeight < 15) hideMark = true;
     return /*#__PURE__*/_react["default"].createElement(_Section["default"], {
       hideMark: hideMark,
       key: i,

@@ -17,7 +17,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var buildData = function buildData(contentRef, wrapperHeight) {
+var buildData = function buildData(contentRef) {
   var scrollHeight = contentRef.offsetHeight;
   var allMarkedNodes = contentRef.querySelectorAll("div[data-name='timeline-scroll-component']");
 
@@ -31,39 +31,37 @@ var buildData = function buildData(contentRef, wrapperHeight) {
     return acc;
   }, []);
 
-  var textSectionHeight = 0;
-  var bulletSectionHeight = 0;
-  dataList = _lodash["default"].map(dataList, function (data) {
-    var parentSectionPercent = undefined;
+  var labelHelper = null;
+  var mappedData = [];
+
+  _lodash["default"].each(dataList.reverse(), function (data) {
     var offsetTop = data.offsetTop,
-        offsetHeight = data.offsetHeight;
+        offsetHeight = data.offsetHeight,
+        label = data.label,
+        type = data.type;
     var top = offsetTop / scrollHeight;
     var height = offsetHeight / scrollHeight;
 
-    if (data.type) {
-      if (data.type === _TimelineComponent.MARK_TYPES.BULLET) {
-        parentSectionPercent = height + bulletSectionHeight;
-        textSectionHeight += height;
-      }
-
-      if (data.type === _TimelineComponent.MARK_TYPES.TEXT) {
-        parentSectionPercent = height + textSectionHeight;
-        textSectionHeight = 0;
-      }
-
-      bulletSectionHeight = 0;
+    if (!type && label === labelHelper) {
+      var lastSection = mappedData.pop();
+      height += lastSection.height;
+      var offsetH = offsetHeight + lastSection.offsetHeight;
+      mappedData.push(_objectSpread(_objectSpread({}, lastSection), {}, {
+        top: top,
+        height: height,
+        offsetTop: offsetTop,
+        offsetHeight: offsetH
+      }));
     } else {
-      textSectionHeight += height;
-      bulletSectionHeight += height;
+      labelHelper = label;
+      mappedData.push(_objectSpread(_objectSpread({}, data), {}, {
+        top: top,
+        height: height
+      }));
     }
-
-    return _objectSpread(_objectSpread({}, data), {}, {
-      top: top,
-      height: height,
-      parentSectionPercent: parentSectionPercent
-    });
   });
-  return dataList;
+
+  return mappedData.reverse();
 };
 
 exports.buildData = buildData;

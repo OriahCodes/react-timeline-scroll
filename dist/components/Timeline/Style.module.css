@@ -35,6 +35,7 @@
 
 .mark{
     position: absolute;
+    user-select: none;
 }
 
 .currentPos{
