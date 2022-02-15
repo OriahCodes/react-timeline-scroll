@@ -5,7 +5,7 @@ import TextMark from "../TextMark/TextMark";
 import { MARK_TYPES } from "../TimelineComponent/TimelineComponent";
 
 
-export default function Section({ topPercent, heightPercent, hideMark, label = '', text = '', type, isHover = false, onHover = () => { } }) {
+export default function Section({ topPercent, currentYPos, heightPercent, hideMark, label = '', text = '', type, onHover = () => { } }) {
     const sectionRef = useRef(null)
 
     const onMouseMove = (event) => {
@@ -21,8 +21,8 @@ export default function Section({ topPercent, heightPercent, hideMark, label = '
     }, [])
 
     useEffect(() => {
-        if (isHover) onHover(label, isHover)
-    }, [isHover])
+        if (!_.isNil(currentYPos)) onHover(label, currentYPos)
+    }, [currentYPos])
 
     return (
         <div className={style.sectionWrapper} ref={sectionRef}

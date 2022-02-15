@@ -4,8 +4,18 @@ import Section from "../Section/Section";
 import _ from 'lodash'
 import FloatingLabel from "../FloatingLabel/FloatingLabel";
 
+
+function debounce() {
+    let timeout
+    return function (callback, wait) {
+        clearTimeout(timeout)
+        timeout = setTimeout(() => {
+            callback()
+        }, wait)
+    }
+}
+
 export default function Timeline({ data, currentYPos = 0, onClick = () => { }, onWheel = () => { } }) {
-    const [yPosDrag, setYPosDrag] = useState(null)
     const [showTimeline, setShowTimeline] = useState(false)
     const isMouseDown = useRef(null)
     const timelineRef = useRef(null)
@@ -34,22 +44,31 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
 
     const handleMouseDown = (flag, event) => {
         const isInElem = isInsideElement(event, timelineRef.current)
+        if (!flag && !isInElem) {
+            activeDebouncer.current(() => {
+                setShowTimeline(false)
+            }, 1500)
+        } if ((flag && isInElem)) setShowTimeline(true)
 
-        if (!flag && !isInElem) setShowTimeline(false)
         if ((flag && isInElem) || !flag)
             isMouseDown.current = flag
     }
 
     const handleMouseMove = (event) => {
-        if (isInsideElement(event, timelineRef.current) || isMouseDown.current || activeDebouncer.current) setShowTimeline(true)
-        else setShowTimeline(false)
+        let isInside = isInsideElement(event, timelineRef.current)
+
+        if (isMouseDown.current || isInside) {
+            activeDebouncer.current(() => { setShowTimeline(true) }, 0)
+        } else {
+            activeDebouncer.current(() => { setShowTimeline(false) }, 1500)
+        }
 
         if (isMouseDown.current) handleDrag(event)
     }
 
     const handleDrag = (event) => {
 
-        setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
+        // setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
         const deltaPerc = getDraglDeltaPercent(event, timelineRef.current)
         if (!_.isNil(deltaPerc)) onClick(deltaPerc)
     }
@@ -60,6 +79,8 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
         document.addEventListener('mousedown', (event) => handleMouseDown(true, event));
         document.addEventListener('mouseup', (event) => handleMouseDown(false, event));
         document.addEventListener('mousemove', handleMouseMove);
+
+        activeDebouncer.current = debounce()
         return () => {
             document.removeEventListener('click', handleClick);
             document.removeEventListener('wheel', handleWheel);
@@ -69,20 +90,15 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
         }
     }, [])
 
-    useEffect(() => {
+    useEffect(() => {//
         if (!currentYPos) return
         setShowTimeline(true)
 
-        clearTimeout(timer.current);
-        activeDebouncer.current = true
-
-        timer.current = setTimeout(() => {
-            activeDebouncer.current = false
+        activeDebouncer.current(() => {
             setShowTimeline(false)
-        }, 1500);
+        }, 1500)
 
     }, [currentYPos])
-
     return (
         <>
             <div className={`${style.timeline} ${showTimeline ? style.visible : ''}`} ref={timelineRef} id='timeline-scroll-strip'>
@@ -91,16 +107,16 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
                     const timelineHeight = timelineRef?.current?.offsetHeight
                     let hideMark
                     if ((height * timelineHeight) < 15) hideMark = true
-
+                    let currYposPerc = (currentYPos / timelineHeight) || 0
                     return < Section
                         hideMark={hideMark}
                         key={i}
-                        isHover={yPosDrag >= top && yPosDrag <= (top + height) ? yPosDrag * timelineRef?.current?.offsetHeight : null}
                         onHover={onSectionHover}
                         topPercent={top}
                         heightPercent={height}
                         text={text}
                         type={type}
+                        currentYPos={currYposPerc >= top && currYposPerc <= (top + height) ? currYposPerc * timelineHeight : null}
                         label={label}>
                     </Section>
                 })}
