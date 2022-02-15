@@ -7,12 +7,10 @@
         "type": "git",
         "url": "git+https://github.com/OriahCodes/react-timeline-scroll.git"
     },
-    "peerDependencies": {
-        "react": "^16.0.2",
-        "react-dom": "^16.0.2"
-    },
+    "peerDependencies": {},
     "scripts": {
-        "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files"
+        "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files",
+        "storybook": "start-storybook -p 6006"
     },
     "devDependencies": {
         "@babel/cli": "^7.17.0",
@@ -20,23 +18,15 @@
         "@babel/plugin-transform-modules-commonjs": "^7.16.8",
         "@babel/preset-env": "^7.16.11",
         "@babel/preset-react": "^7.16.7",
-        "babel-plugin-macros": "^3.1.0"
+        "@storybook/addon-actions": "^6.4.19",
+        "@storybook/addon-essentials": "^6.4.19",
+        "@storybook/addon-links": "^6.4.19",
+        "@storybook/react": "^6.4.19",
+        "react": "^16.0.2",
+        "react-dom": "^16.0.2",
+        "storybook-css-modules-preset": "^1.1.1"
     },
     "dependencies": {
         "@babel/polyfill": "^7.12.1"
-    },
-    "babel": {
-        "presets": [
-            "react"
-        ],
-        "plugins": [
-            "macros",
-            [
-                "@babel/plugin-transform-modules-commonjs",
-                {
-                    "allowTopLevelThis": true
-                }
-            ]
-        ]
     }
 }

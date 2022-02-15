@@ -87,10 +87,10 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
         <>
             <div className={`${style.timeline} ${showTimeline ? style.visible : ''}`} ref={timelineRef} id='timeline-scroll-strip'>
                 {data.map((item, i) => {
-                    const { label, top, height, text, type, parentSectionPercent } = item
+                    const { label, top, height, text, type } = item
                     const timelineHeight = timelineRef?.current?.offsetHeight
                     let hideMark
-                    if ((parentSectionPercent * timelineHeight) < 15) hideMark = true
+                    if ((height * timelineHeight) < 15) hideMark = true
 
                     return < Section
                         hideMark={hideMark}

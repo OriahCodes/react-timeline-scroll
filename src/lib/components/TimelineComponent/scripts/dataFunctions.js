@@ -1,16 +1,13 @@
 import _ from 'lodash'
 import { MARK_TYPES } from '../TimelineComponent'
 
-export const buildData = (contentRef, wrapperHeight) => {
+export const buildData = (contentRef) => {
     const scrollHeight = contentRef.offsetHeight
-
     let allMarkedNodes = contentRef.querySelectorAll("div[data-name='timeline-scroll-component']")
 
     let dataList = _.reduce(allMarkedNodes, (acc, node) => {
-
         const offsetTop = node.offsetTop
         const offsetHeight = node.offsetHeight
-
         acc.push({
             ...node.dataset,
             offsetTop,
@@ -19,31 +16,24 @@ export const buildData = (contentRef, wrapperHeight) => {
         return acc
     }, [])
 
-    let textSectionHeight = 0
-    let bulletSectionHeight = 0
+    let labelHelper = null
+    let mappedData = []
+    _.each(dataList.reverse(), data => {
+        let { offsetTop, offsetHeight, label, type } = data
 
-    dataList = _.map(dataList, data => {
-        let parentSectionPercent = undefined
-        const { offsetTop, offsetHeight } = data
-        const top = (offsetTop / scrollHeight)
-        const height = (offsetHeight / scrollHeight)
+        let top = (offsetTop / scrollHeight)
+        let height = (offsetHeight / scrollHeight)
 
-        if (data.type) {
-            if (data.type === MARK_TYPES.BULLET) {
-                parentSectionPercent = height + bulletSectionHeight
-                textSectionHeight += height
-            }
-            if (data.type === MARK_TYPES.TEXT) {
-                parentSectionPercent = height + textSectionHeight
-                textSectionHeight = 0
-            }
-            bulletSectionHeight = 0
+        if (!type && label === labelHelper) {
+            const lastSection = mappedData.pop()
+            height += lastSection.height
+            let offsetH = offsetHeight + lastSection.offsetHeight
+            mappedData.push({ ...lastSection, top, height, offsetTop, offsetHeight: offsetH })
         } else {
-            textSectionHeight += height
-            bulletSectionHeight += height
+            labelHelper = label
+            mappedData.push({ ...data, top, height })
         }
-        return { ...data, top, height, parentSectionPercent }
     })
 
-    return dataList
+    return mappedData.reverse()
 }
