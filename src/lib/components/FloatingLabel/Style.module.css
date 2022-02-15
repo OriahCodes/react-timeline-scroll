@@ -10,5 +10,6 @@
     color:rgb(42, 41, 41);
     font-weight: 600;
     font-size: 14px;
+    user-select: none;
     /* padding:2px */
 }
