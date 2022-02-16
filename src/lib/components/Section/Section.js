@@ -21,7 +21,9 @@ export default function Section({ topPercent, currentYPos, heightPercent, hideMa
     }, [])
 
     useEffect(() => {
-        if (!_.isNil(currentYPos)) onHover(label, currentYPos)
+        if (!_.isNil(currentYPos)) {
+            onHover(label, currentYPos + 1)
+        }
     }, [currentYPos])
 
     return (

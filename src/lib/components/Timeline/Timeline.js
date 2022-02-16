@@ -25,9 +25,9 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
 
     const onSectionHover = (label, yPos) => {
         const floatingLabel = floatingLabelRef.current.firstElementChild
-        let position = Math.max(0, yPos - 22)
-        position = Math.min(position, timelineRef.current.offsetHeight - 22)
-        floatingLabel.style.top = `${position}px`
+        let position = Math.max(0, yPos - 16)
+        position = Math.min(position, timelineRef.current.offsetHeight - 16)
+        floatingLabel.style.top = `${(position * 100 / timelineRef?.current?.offsetHeight) || 0}%`
         floatingLabel.innerHTML = label
         floatingLabel.padding = '2px' //TODO
     }
@@ -120,7 +120,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
                         label={label}>
                     </Section>
                 })}
-                <div className={style.currentPos} style={{ top: currentYPos }}></div>
+                <div className={style.currentPos} style={{ top: `${(currentYPos * 100 / (timelineRef?.current?.offsetHeight)) || 0}%` }}></div>
             </div>
 
             <div ref={floatingLabelRef} className={`${style.floatingLabel} ${showTimeline ? style.visible : ''}`}>
