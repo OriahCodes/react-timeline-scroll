@@ -61,6 +61,11 @@ function Timeline(_ref) {
       showTimeline = _useState2[0],
       setShowTimeline = _useState2[1];
 
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isTimelineHover = _useState4[0],
+      setTimelineHover = _useState4[1];
+
   var isMouseDown = (0, _react.useRef)(null);
   var timelineRef = (0, _react.useRef)(null);
   var floatingLabelRef = (0, _react.useRef)(null);
@@ -103,6 +108,7 @@ function Timeline(_ref) {
 
   var handleMouseMove = function handleMouseMove(event) {
     var isInside = isInsideElement(event, timelineRef.current);
+    setTimelineHover(isInside);
 
     if (isMouseDown.current || isInside) {
       activeDebouncer.current(function () {
@@ -178,7 +184,7 @@ function Timeline(_ref) {
       heightPercent: height,
       text: text,
       type: type,
-      currentYPos: currYposPerc >= top && currYposPerc <= top + height ? currYposPerc * timelineHeight : null,
+      currentYPos: !isTimelineHover && currYposPerc >= top && currYposPerc <= top + height ? currYposPerc * timelineHeight : null,
       label: label
     });
   }), /*#__PURE__*/_react["default"].createElement("div", {
