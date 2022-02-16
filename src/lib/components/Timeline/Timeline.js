@@ -17,6 +17,7 @@ function debounce() {
 
 export default function Timeline({ data, currentYPos = 0, onClick = () => { }, onWheel = () => { } }) {
     const [showTimeline, setShowTimeline] = useState(false)
+    const [isTimelineHover, setTimelineHover] = useState(false)
     const isMouseDown = useRef(null)
     const timelineRef = useRef(null)
     const floatingLabelRef = useRef(null)
@@ -56,6 +57,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
 
     const handleMouseMove = (event) => {
         let isInside = isInsideElement(event, timelineRef.current)
+        setTimelineHover(isInside)
 
         if (isMouseDown.current || isInside) {
             activeDebouncer.current(() => { setShowTimeline(true) }, 0)
@@ -116,7 +118,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
                         heightPercent={height}
                         text={text}
                         type={type}
-                        currentYPos={currYposPerc >= top && currYposPerc <= (top + height) ? currYposPerc * timelineHeight : null}
+                        currentYPos={!isTimelineHover && (currYposPerc >= top && currYposPerc <= (top + height)) ? currYposPerc * timelineHeight : null}
                         label={label}>
                     </Section>
                 })}
