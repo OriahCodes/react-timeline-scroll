@@ -25,6 +25,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function Section(_ref) {
   var topPercent = _ref.topPercent,
+      currentYPos = _ref.currentYPos,
       heightPercent = _ref.heightPercent,
       hideMark = _ref.hideMark,
       _ref$label = _ref.label,
@@ -32,8 +33,6 @@ function Section(_ref) {
       _ref$text = _ref.text,
       text = _ref$text === void 0 ? '' : _ref$text,
       type = _ref.type,
-      _ref$isHover = _ref.isHover,
-      isHover = _ref$isHover === void 0 ? false : _ref$isHover,
       _ref$onHover = _ref.onHover,
       onHover = _ref$onHover === void 0 ? function () {} : _ref$onHover;
   var sectionRef = (0, _react.useRef)(null);
@@ -50,8 +49,10 @@ function Section(_ref) {
     };
   }, []);
   (0, _react.useEffect)(function () {
-    if (isHover) onHover(label, isHover);
-  }, [isHover]);
+    if (!_.isNil(currentYPos)) {
+      onHover(label, currentYPos + 1);
+    }
+  }, [currentYPos]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _StyleModule["default"].sectionWrapper,
     ref: sectionRef,

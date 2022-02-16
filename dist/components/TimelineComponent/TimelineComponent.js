@@ -74,6 +74,7 @@ function TimelineComponent(_ref) {
   };
 
   var onScroll = function onScroll(event) {
+    debugger;
     var timelineScroll = (wrapperRef.current.clientHeight - 2) * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight));
     setScrollTop(timelineScroll);
   };

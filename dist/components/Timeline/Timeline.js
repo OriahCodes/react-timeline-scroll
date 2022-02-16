@@ -35,7 +35,19 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function debounce() {
+  var timeout;
+  return function (callback, wait) {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      callback();
+    }, wait);
+  };
+}
+
 function Timeline(_ref) {
+  var _timelineRef$current3;
+
   var data = _ref.data,
       _ref$currentYPos = _ref.currentYPos,
       currentYPos = _ref$currentYPos === void 0 ? 0 : _ref$currentYPos,
@@ -44,15 +56,10 @@ function Timeline(_ref) {
       _ref$onWheel = _ref.onWheel,
       onWheel = _ref$onWheel === void 0 ? function () {} : _ref$onWheel;
 
-  var _useState = (0, _react.useState)(null),
+  var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      yPosDrag = _useState2[0],
-      setYPosDrag = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      showTimeline = _useState4[0],
-      setShowTimeline = _useState4[1];
+      showTimeline = _useState2[0],
+      setShowTimeline = _useState2[1];
 
   var isMouseDown = (0, _react.useRef)(null);
   var timelineRef = (0, _react.useRef)(null);
@@ -61,10 +68,12 @@ function Timeline(_ref) {
   var timer = (0, _react.useRef)(null);
 
   var onSectionHover = function onSectionHover(label, yPos) {
+    var _timelineRef$current;
+
     var floatingLabel = floatingLabelRef.current.firstElementChild;
-    var position = Math.max(0, yPos - 22);
-    position = Math.min(position, timelineRef.current.offsetHeight - 22);
-    floatingLabel.style.top = "".concat(position, "px");
+    var position = Math.max(0, yPos - 16);
+    position = Math.min(position, timelineRef.current.offsetHeight - 16);
+    floatingLabel.style.top = "".concat(position * 100 / (timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current = timelineRef.current) === null || _timelineRef$current === void 0 ? void 0 : _timelineRef$current.offsetHeight) || 0, "%");
     floatingLabel.innerHTML = label;
     floatingLabel.padding = '2px'; //TODO
   };
@@ -81,17 +90,35 @@ function Timeline(_ref) {
 
   var handleMouseDown = function handleMouseDown(flag, event) {
     var isInElem = isInsideElement(event, timelineRef.current);
-    if (!flag && !isInElem) setShowTimeline(false);
+
+    if (!flag && !isInElem) {
+      activeDebouncer.current(function () {
+        setShowTimeline(false);
+      }, 1500);
+    }
+
+    if (flag && isInElem) setShowTimeline(true);
     if (flag && isInElem || !flag) isMouseDown.current = flag;
   };
 
   var handleMouseMove = function handleMouseMove(event) {
-    if (isInsideElement(event, timelineRef.current) || isMouseDown.current || activeDebouncer.current) setShowTimeline(true);else setShowTimeline(false);
+    var isInside = isInsideElement(event, timelineRef.current);
+
+    if (isMouseDown.current || isInside) {
+      activeDebouncer.current(function () {
+        setShowTimeline(true);
+      }, 0);
+    } else {
+      activeDebouncer.current(function () {
+        setShowTimeline(false);
+      }, 1500);
+    }
+
     if (isMouseDown.current) handleDrag(event);
   };
 
   var handleDrag = function handleDrag(event) {
-    setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight);
+    // setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
     var deltaPerc = getDraglDeltaPercent(event, timelineRef.current);
     if (!_lodash["default"].isNil(deltaPerc)) onClick(deltaPerc);
   };
@@ -106,6 +133,7 @@ function Timeline(_ref) {
       return handleMouseDown(false, event);
     });
     document.addEventListener('mousemove', handleMouseMove);
+    activeDebouncer.current = debounce();
     return function () {
       document.removeEventListener('click', handleClick);
       document.removeEventListener('wheel', handleWheel);
@@ -119,12 +147,10 @@ function Timeline(_ref) {
     };
   }, []);
   (0, _react.useEffect)(function () {
+    //
     if (!currentYPos) return;
     setShowTimeline(true);
-    clearTimeout(timer.current);
-    activeDebouncer.current = true;
-    timer.current = setTimeout(function () {
-      activeDebouncer.current = false;
+    activeDebouncer.current(function () {
       setShowTimeline(false);
     }, 1500);
   }, [currentYPos]);
@@ -133,31 +159,32 @@ function Timeline(_ref) {
     ref: timelineRef,
     id: "timeline-scroll-strip"
   }, data.map(function (item, i) {
-    var _timelineRef$current, _timelineRef$current2;
+    var _timelineRef$current2;
 
     var label = item.label,
         top = item.top,
         height = item.height,
         text = item.text,
         type = item.type;
-    var timelineHeight = timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current = timelineRef.current) === null || _timelineRef$current === void 0 ? void 0 : _timelineRef$current.offsetHeight;
+    var timelineHeight = timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current2 = timelineRef.current) === null || _timelineRef$current2 === void 0 ? void 0 : _timelineRef$current2.offsetHeight;
     var hideMark;
     if (height * timelineHeight < 15) hideMark = true;
+    var currYposPerc = currentYPos / timelineHeight || 0;
     return /*#__PURE__*/_react["default"].createElement(_Section["default"], {
       hideMark: hideMark,
       key: i,
-      isHover: yPosDrag >= top && yPosDrag <= top + height ? yPosDrag * (timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current2 = timelineRef.current) === null || _timelineRef$current2 === void 0 ? void 0 : _timelineRef$current2.offsetHeight) : null,
       onHover: onSectionHover,
       topPercent: top,
       heightPercent: height,
       text: text,
       type: type,
+      currentYPos: currYposPerc >= top && currYposPerc <= top + height ? currYposPerc * timelineHeight : null,
       label: label
     });
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _StyleModule["default"].currentPos,
     style: {
-      top: currentYPos
+      top: "".concat(currentYPos * 100 / (timelineRef === null || timelineRef === void 0 ? void 0 : (_timelineRef$current3 = timelineRef.current) === null || _timelineRef$current3 === void 0 ? void 0 : _timelineRef$current3.offsetHeight) || 0, "%")
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {
     ref: floatingLabelRef,
