@@ -30,7 +30,6 @@ export default function TimelineComponent({ className = '', children }) {
     }
 
     const onScroll = (event) => {
-        debugger
         const timelineScroll = (wrapperRef.current.clientHeight - 2) * (event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight))
         setScrollTop(timelineScroll)
     }
