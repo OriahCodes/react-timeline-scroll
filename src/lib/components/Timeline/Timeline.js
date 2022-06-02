@@ -15,7 +15,7 @@ function debounce() {
     }
 }
 
-export default function Timeline({ data, currentYPos = 0, onClick = () => { }, onWheel = () => { } }) {
+export default function Timeline({ data, blockMouseEvents = false, currentYPos = 0, onClick = () => { }, onWheel = () => { } }) {
     const [showTimeline, setShowTimeline] = useState(false)
     const [isTimelineHover, setTimelineHover] = useState(false)
     const isMouseDown = useRef(null)
@@ -25,6 +25,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     const timer = useRef(null)
 
     const onSectionHover = (label, yPos) => {
+        if (blockMouseEvents) return
         const floatingLabel = floatingLabelRef.current.firstElementChild
         let position = Math.max(0, yPos - 16)
         position = Math.min(position, timelineRef.current.offsetHeight - 16)
@@ -34,16 +35,19 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     }
 
     const handleClick = (event) => {
+        if (blockMouseEvents) return
         const posPerc = getClickPosPercent(event, timelineRef.current)
         if (!_.isNil(posPerc)) onClick(posPerc)
     }
 
     const handleWheel = (event) => {
+        if (blockMouseEvents) return
         const deltaPerc = getWheelDeltaPercent(event, timelineRef.current)
         if (!_.isNil(deltaPerc)) onWheel(deltaPerc)
     }
 
     const handleMouseDown = (flag, event) => {
+        if (blockMouseEvents) return
         const isInElem = isInsideElement(event, timelineRef.current)
         if (!flag && !isInElem) {
             activeDebouncer.current(() => {
@@ -56,6 +60,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     }
 
     const handleMouseMove = (event) => {
+        if (blockMouseEvents) return
         let isInside = isInsideElement(event, timelineRef.current)
         setTimelineHover(isInside)
 
@@ -69,7 +74,7 @@ export default function Timeline({ data, currentYPos = 0, onClick = () => { }, o
     }
 
     const handleDrag = (event) => {
-
+        if (blockMouseEvents) return
         // setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
         const deltaPerc = getDraglDeltaPercent(event, timelineRef.current)
         if (!_.isNil(deltaPerc)) onClick(deltaPerc)

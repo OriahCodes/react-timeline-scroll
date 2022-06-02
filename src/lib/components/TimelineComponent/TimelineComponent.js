@@ -8,7 +8,7 @@ export const MARK_TYPES = {
     TEXT: 'text'
 }
 
-export default function TimelineComponent({ className = '', children }) {
+export default function TimelineComponent({ className = '', blockMouseEvents = false, children }) {
     const contentRef = useRef(null)
     const wrapperRef = useRef(null)
     const [timelineData, setTimelineData] = useState(null)
@@ -43,6 +43,7 @@ export default function TimelineComponent({ className = '', children }) {
             </div>
             {timelineData &&
                 <Timeline
+                    blockMouseEvents={blockMouseEvents}
                     onClick={onClick}
                     onWheel={onWheel}
                     currentYPos={scrollTop}
