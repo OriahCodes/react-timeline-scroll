@@ -43,6 +43,8 @@ exports.MARK_TYPES = MARK_TYPES;
 function TimelineComponent(_ref) {
   var _ref$className = _ref.className,
       className = _ref$className === void 0 ? '' : _ref$className,
+      _ref$blockMouseEvents = _ref.blockMouseEvents,
+      blockMouseEvents = _ref$blockMouseEvents === void 0 ? false : _ref$blockMouseEvents,
       children = _ref.children;
   var contentRef = (0, _react.useRef)(null);
   var wrapperRef = (0, _react.useRef)(null);
@@ -87,6 +89,7 @@ function TimelineComponent(_ref) {
     className: className,
     ref: contentRef
   }, children)), timelineData && /*#__PURE__*/_react["default"].createElement(_Timeline["default"], {
+    blockMouseEvents: blockMouseEvents,
     onClick: onClick,
     onWheel: onWheel,
     currentYPos: scrollTop,
