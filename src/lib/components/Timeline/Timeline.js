@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import style from "./Style.module.css"
 import Section from "../Section/Section";
 import _ from 'lodash'
@@ -22,10 +22,13 @@ export default function Timeline({ data, blockMouseEvents = false, currentYPos =
     const timelineRef = useRef(null)
     const floatingLabelRef = useRef(null)
     const activeDebouncer = useRef(null)
+    const blockMouseEventsRef = useRef(null)
     const timer = useRef(null)
 
+    blockMouseEventsRef.current = useMemo(() => blockMouseEvents, [blockMouseEvents])
+
     const onSectionHover = (label, yPos) => {
-        if (blockMouseEvents) return
+        if (blockMouseEventsRef.current) return
         const floatingLabel = floatingLabelRef.current.firstElementChild
         let position = Math.max(0, yPos - 16)
         position = Math.min(position, timelineRef.current.offsetHeight - 16)
@@ -35,19 +38,19 @@ export default function Timeline({ data, blockMouseEvents = false, currentYPos =
     }
 
     const handleClick = (event) => {
-        if (blockMouseEvents) return
+        if (blockMouseEventsRef.current) return
         const posPerc = getClickPosPercent(event, timelineRef.current)
         if (!_.isNil(posPerc)) onClick(posPerc)
     }
 
     const handleWheel = (event) => {
-        if (blockMouseEvents) return
+        if (blockMouseEventsRef.current) return
         const deltaPerc = getWheelDeltaPercent(event, timelineRef.current)
         if (!_.isNil(deltaPerc)) onWheel(deltaPerc)
     }
 
     const handleMouseDown = (flag, event) => {
-        if (blockMouseEvents) return
+        if (blockMouseEventsRef.current) return
         const isInElem = isInsideElement(event, timelineRef.current)
         if (!flag && !isInElem) {
             activeDebouncer.current(() => {
@@ -60,7 +63,7 @@ export default function Timeline({ data, blockMouseEvents = false, currentYPos =
     }
 
     const handleMouseMove = (event) => {
-        if (blockMouseEvents) return
+        if (blockMouseEventsRef.current) return
         let isInside = isInsideElement(event, timelineRef.current)
         setTimelineHover(isInside)
 
@@ -74,7 +77,7 @@ export default function Timeline({ data, blockMouseEvents = false, currentYPos =
     }
 
     const handleDrag = (event) => {
-        if (blockMouseEvents) return
+        if (blockMouseEventsRef.current) return
         // setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
         const deltaPerc = getDraglDeltaPercent(event, timelineRef.current)
         if (!_.isNil(deltaPerc)) onClick(deltaPerc)
