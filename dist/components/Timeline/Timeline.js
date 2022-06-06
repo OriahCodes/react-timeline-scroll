@@ -75,7 +75,6 @@ function Timeline(_ref) {
   var blockMouseEventsRef = (0, _react.useRef)(null);
   var timer = (0, _react.useRef)(null);
   blockMouseEventsRef.current = (0, _react.useMemo)(function () {
-    debugger;
     return blockMouseEvents;
   }, [blockMouseEvents]);
 
@@ -118,7 +117,6 @@ function Timeline(_ref) {
   };
 
   var handleMouseMove = function handleMouseMove(event) {
-    console.log('blockMouseEventsRef.current', blockMouseEventsRef.current);
     if (blockMouseEventsRef.current) return;
     var isInside = isInsideElement(event, timelineRef.current);
     setTimelineHover(isInside);
