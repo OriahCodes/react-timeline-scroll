@@ -72,12 +72,16 @@ function Timeline(_ref) {
   var timelineRef = (0, _react.useRef)(null);
   var floatingLabelRef = (0, _react.useRef)(null);
   var activeDebouncer = (0, _react.useRef)(null);
+  var blockMouseEventsRef = (0, _react.useRef)(null);
   var timer = (0, _react.useRef)(null);
+  blockMouseEventsRef.current = (0, _react.useMemo)(function () {
+    return blockMouseEvents;
+  }, [blockMouseEvents]);
 
   var onSectionHover = function onSectionHover(label, yPos) {
     var _timelineRef$current;
 
-    if (blockMouseEvents) return;
+    if (blockMouseEventsRef.current) return;
     var floatingLabel = floatingLabelRef.current.firstElementChild;
     var position = Math.max(0, yPos - 16);
     position = Math.min(position, timelineRef.current.offsetHeight - 16);
@@ -87,19 +91,19 @@ function Timeline(_ref) {
   };
 
   var handleClick = function handleClick(event) {
-    if (blockMouseEvents) return;
+    if (blockMouseEventsRef.current) return;
     var posPerc = getClickPosPercent(event, timelineRef.current);
     if (!_lodash["default"].isNil(posPerc)) onClick(posPerc);
   };
 
   var handleWheel = function handleWheel(event) {
-    if (blockMouseEvents) return;
+    if (blockMouseEventsRef.current) return;
     var deltaPerc = getWheelDeltaPercent(event, timelineRef.current);
     if (!_lodash["default"].isNil(deltaPerc)) onWheel(deltaPerc);
   };
 
   var handleMouseDown = function handleMouseDown(flag, event) {
-    if (blockMouseEvents) return;
+    if (blockMouseEventsRef.current) return;
     var isInElem = isInsideElement(event, timelineRef.current);
 
     if (!flag && !isInElem) {
@@ -113,7 +117,7 @@ function Timeline(_ref) {
   };
 
   var handleMouseMove = function handleMouseMove(event) {
-    if (blockMouseEvents) return;
+    if (blockMouseEventsRef.current) return;
     var isInside = isInsideElement(event, timelineRef.current);
     setTimelineHover(isInside);
 
@@ -131,7 +135,7 @@ function Timeline(_ref) {
   };
 
   var handleDrag = function handleDrag(event) {
-    if (blockMouseEvents) return; // setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
+    if (blockMouseEventsRef.current) return; // setYPosDrag((event.clientY - timelineRef.current.getBoundingClientRect().top) / timelineRef.current.offsetHeight)
 
     var deltaPerc = getDraglDeltaPercent(event, timelineRef.current);
     if (!_lodash["default"].isNil(deltaPerc)) onClick(deltaPerc);

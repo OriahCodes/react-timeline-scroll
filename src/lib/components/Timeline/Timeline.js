@@ -25,7 +25,10 @@ export default function Timeline({ data, blockMouseEvents = false, currentYPos =
     const blockMouseEventsRef = useRef(null)
     const timer = useRef(null)
 
-    blockMouseEventsRef.current = useMemo(() => blockMouseEvents, [blockMouseEvents])
+    blockMouseEventsRef.current = useMemo(() => {
+        debugger
+        return blockMouseEvents
+    }, [blockMouseEvents])
 
     const onSectionHover = (label, yPos) => {
         if (blockMouseEventsRef.current) return
@@ -63,6 +66,7 @@ export default function Timeline({ data, blockMouseEvents = false, currentYPos =
     }
 
     const handleMouseMove = (event) => {
+        console.log('blockMouseEventsRef.current', blockMouseEventsRef.current)
         if (blockMouseEventsRef.current) return
         let isInside = isInsideElement(event, timelineRef.current)
         setTimelineHover(isInside)
